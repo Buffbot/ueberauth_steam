@@ -35,6 +35,8 @@ defmodule Ueberauth.Strategy.Steam do
   @spec handle_callback!(Plug.Conn.t) :: Plug.Conn.t
   def handle_callback!(conn = %Plug.Conn{params: %{"openid.mode" => "id_res"}}) do
     params = conn.params
+    require IEx
+    IEx.pry
 
     [valid, user] =
       [ # Validate and retrieve the steam user at the same time.
