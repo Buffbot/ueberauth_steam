@@ -110,12 +110,9 @@ defmodule Ueberauth.Strategy.Steam do
   end
 
   @spec retrieve_user(map) :: map | nil
-  defp retrieve_user(%{"openid.claimed_id" => "http://steamcommunity.com/openid/id/" <> id}) do
-    do_retrieve_user(id)
-  end
-
-  defp retrieve_user(%{"openid.claimed_id" => "https://steamcommunity.com/openid/id/" <> id}) do
-    do_retrieve_user(id)
+  defp retrieve_user(%{"openid.claimed_id" => claimedId}) do
+    userId = List.last(String.split(claimedId, "/"))
+    do_retrieve_user(userId)
   end
 
   defp do_retrieve_user(id) do
