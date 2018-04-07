@@ -110,7 +110,9 @@ defmodule Ueberauth.Strategy.Steam do
   end
 
   @spec retrieve_user(map) :: map | nil
-  defp retrieve_user(%{"openid.claimed_id" => claimedId}) do
+  defp retrieve_user(data) do
+    require IEx
+    IEx.pry
     userId = List.last(String.split(claimedId, "/"))
     do_retrieve_user(userId)
   end
