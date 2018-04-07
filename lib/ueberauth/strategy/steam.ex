@@ -35,20 +35,6 @@ defmodule Ueberauth.Strategy.Steam do
   @spec handle_callback!(Plug.Conn.t) :: Plug.Conn.t
   def handle_callback!(conn = %Plug.Conn{params: %{"openid.mode" => "id_res"}}) do
     params = conn.params
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
-    IO.puts('-------------------------------------------')
 
     [valid, user] =
       [ # Validate and retrieve the steam user at the same time.
@@ -124,11 +110,12 @@ defmodule Ueberauth.Strategy.Steam do
   end
 
   @spec retrieve_user(map) :: map | nil
-  defp retrieve_user(data) do
-    require IEx
-    IEx.pry
-    userId = List.last(String.split(claimedId, "/"))
-    do_retrieve_user(userId)
+  defp retrieve_user(%{"openid.claimed_id" => "http://steamcommunity.com/openid/id/" <> id}) do
+    do_retrieve_user(id)
+  end
+
+  defp retrieve_user(%{"openid.claimed_id" => "https://steamcommunity.com/openid/id/" <> id}) do
+    do_retrieve_user(id)
   end
 
   defp do_retrieve_user(id) do
